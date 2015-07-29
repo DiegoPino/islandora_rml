@@ -1,0 +1,10 @@
+name = Islandora RML
+description = Updating RELS-EXT from XML datastreams
+core = 7.x
+;package = Islandora
+;dependencies[] = image
+;version = 7.x-1.5
+;configure = admin/...
+;stylesheets[all][] = css/...
+;files[] = includes/...
+php = 5.3

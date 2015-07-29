@@ -1,0 +1,95 @@
+<?php
+
+/**
+* @file
+* A module that updates RELS-EXT from XML
+* based on an adapted version of http://rml.io/
+*/
+
+
+include_once dirname(__FILE__).'/includes/RML.php';
+
+/**
+* Implements hook_help.
+*
+* Displays help and module information.
+*
+* @param path
+*   Which path of the site we're using to display help
+* @param arg
+*   Array that holds the current path as returned from arg() function
+*/
+function islandora_rml_help($path, $arg) {
+	switch ($path) {
+		case "admin/help#islandora_rml":
+		return '<p>' . t("Some help on updating RELS-EXT from XML") . '</p>';
+		break;
+	}
+}
+
+/**
+* Implements hook_block_info.
+*
+* Displays block info.
+*
+*/
+function islandora_rml_block_info() {
+	$blocks= array();
+	$blocks['rml']= array(
+	'info'=> t('RML - show derived triples'),
+	'cache'=> DRUPAL_NO_CACHE,
+	);
+	$blocks['relationships']= array(
+	'info'=> t('Relationships: show RELS-EXT'),
+	'cache'=> DRUPAL_NO_CACHE,
+	);
+	return $blocks;
+}
+
+/**
+* Implements hook_block_view.
+*
+* Displays block.
+*
+*/
+
+function islandora_rml_block_view($delta= '') {
+	switch ($delta) {
+		
+		//shows relationships in RELS-EXT of the object
+		case 'relationships':
+		$block['content'] = '<div id="relationships" style="border-style:solid;border-width:1px;padding:2px">';
+		$block['content'] .= '<br/><h3>Relationships in RELS-EXT</h3><pre>';
+		$fedoraObject = islandora_object_load(get_pid_from_url());
+		$rels = $fedoraObject->relationships->get();
+		$block['content'] .= json_encode($rels,JSON_PRETTY_PRINT);
+		$block['content'] .= '</pre></div>';
+		break;
+
+		//shows derived triples
+		//for now from a RML specification stored in includes/RML.json
+		case 'rml':
+		$block['content'] = '<div id="rml_test" style="border-style:solid;border-width:1px;padding:2px">';
+		$block['content'] .= '<br/><h3>RML - derived triples</h3><pre>';
+		$jsonString = file_get_contents(dirname(__FILE__).'/includes/RML.json');
+		$rml = new RML($jsonString);
+		$fedoraObject = islandora_object_load(get_pid_from_url());
+		$block['content'] .= json_encode($rml->deriveTriples($fedoraObject),JSON_PRETTY_PRINT);
+//		$rml->addDerivedTriples($fedoraObject);
+		$block['content'] .= '</pre></div>';
+		break;
+	}
+	return $block;
+}
+
+
+function get_pid_from_url() {
+	$thisPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+	$parts = explode('/', $thisPath);
+	$pid = array_pop($parts);
+	return urldecode($pid);
+}
+
+
+
+

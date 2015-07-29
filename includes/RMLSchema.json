@@ -1,0 +1,148 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"title":"RML",
+	"properties": {
+		"triplesMap": {
+			"type":"array",
+			"title":"Triples map(s)",
+			"format":"tabs",
+			"items": {
+				"type": "object",
+				"title": "triples map",
+				"headerTemplate": "{{ i1 }} - {{ self.name }}",
+				"required":["name","contentModel","dataStream","iterator"],
+				"properties": {
+					"name": {
+						"type":"string",
+						"title":"Name",
+						"propertyOrder": 100
+					},
+					"contentModel": {
+						"type":"string",
+						"propertyOrder": 200,
+						"title":"Content model"
+					},
+					"collection": {
+						"type":"array",
+						"propertyOrder": 300,
+						"title":"Collection(s)",
+						"format":"table",
+						"items": {
+							"type":"string",
+							"title":"collection"
+						}
+					},
+					"dataStream": {
+						"type":"string",
+						"propertyOrder": 400,
+						"title":"Datastream"
+					},
+					"nameSpaces": {
+						"type":"array",
+						"propertyOrder": 500,
+						"title":"Name space(s) in datastream",
+						"format":"table",
+						"items": {
+							"type":"object",
+							"title":"namespace",
+							"properties":{
+								"ns": {
+									"type":"string",
+									"title":"Namespace"
+								},
+								"uri": {
+									"type":"string",
+									"title":"URI"
+								}
+							}
+						}
+					},
+					"iterator": {
+						"type":"string",
+						"propertyOrder": 600,
+						"title":"Iterator"
+					},
+					"predicateObjectMap": {
+						"type": "array",
+						"propertyOrder": 700,
+						"title":"Predicate Object map(s)",
+						"items": {
+							"type": "object",
+							"title":"Map",
+							"properties": {
+								"description": {
+									"type":"string",
+									"propertyOrder": 710,
+									"title":"Description"
+								},
+								"predicateMap": {
+									"type":"object",
+									"title":"Predicate",
+									"propertyOrder": 720,
+									"properties": {
+										"xpath": {
+											"type":"string",
+											"propertyOrder": 730,
+											"title":"xPath of predicate in document"
+										},
+										"ruleType": {
+											"type": "string",
+											"propertyOrder": 740,
+											"title":"xPath type",
+											"enum": ["reference","constant","template"]
+										},
+										"nameSpace": {
+											"type":"string",
+											"propertyOrder": 750,
+											"title":"Namespace"
+										},
+										"nameSpaceURI": {
+											"type":"string",
+											"propertyOrder": 760,
+											"title":"Namespace URI"
+										}
+									}
+								},
+								"objectMap": {
+									"type":"object",
+									"title":"Object",
+									"propertyOrder": 800,
+									"properties": {
+										"xpath": {
+											"type":"string",
+											"propertyOrder": 810,
+											"title":"xPath of object in document"
+										},
+										"ruleType": {
+											"type": "string",
+											"propertyOrder": 820,
+											"title":"xPath type",
+											"enum": ["reference","constant","template"]
+										},
+										"literal": {
+											"type":"boolean",
+											"format": "checkbox",
+											"propertyOrder": 830,
+											"title":"Literal object?"
+										},
+										"nameSpace": {
+											"type":"string",
+											"propertyOrder": 840,
+											"title":"Namespace"
+										},
+										"nameSpaceURI": {
+											"type":"string",
+											"propertyOrder": 850,
+											"title":"Namespace URI"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,109 @@
+{
+  "triplesMap": [
+    {
+      "name": "mods_simple",
+      "contentModel": "islandora:sp_pdf",
+      "dataStream": "MODS",
+      "nameSpaces": [
+        {
+          "ns": "mods",
+          "uri": "http://www.loc.gov/mods/v3"
+        }
+      ],
+      "iterator": "/mods:mods",
+      "predicateObjectMap": [
+        {
+          "description": "",
+          "predicateMap": {
+            "xpath": "mods:relatedItem/@type",
+            "ruleType": "reference",
+            "nameSpace": "tudrepo",
+            "nameSpaceURI": "http://www.library.tudelft.nl/ns/repo"
+          },
+          "objectMap": {
+            "xpath": "info:fedora/{mods:relatedItem/mods:identifier}",
+            "ruleType": "template",
+            "literal": false,
+            "nameSpace": "fedora",
+            "nameSpaceURI": "info:fedora/fedora-system:def/relations-external#"
+          }
+        },
+        {
+          "predicateMap": {
+            "xpath": "hasTitle",
+            "ruleType": "constant",
+            "nameSpace": "tudrepo",
+            "nameSpaceURI": "http://www.library.tudelft.nl/ns/repo"
+          },
+          "objectMap": {
+            "xpath": "mods:titleInfo/mods:title",
+            "ruleType": "reference",
+            "literal": true,
+            "nameSpace": "",
+            "nameSpaceURI": ""
+          }
+        },
+        {
+          "predicateMap": {
+            "xpath": "test",
+            "ruleType": "constant",
+            "nameSpace": "tudrepo",
+            "nameSpaceURI": "http://www.library.tudelft.nl/ns/repo"
+          },
+          "objectMap": {
+            "xpath": "mods:titleInfo/mods:title",
+            "ruleType": "reference",
+            "literal": true,
+            "nameSpace": "",
+            "nameSpaceURI": ""
+          }
+        },
+        {
+          "predicateMap": {
+            "xpath": "subject",
+            "ruleType": "constant",
+            "nameSpace": "tudrepo",
+            "nameSpaceURI": "http://www.library.tudelft.nl/ns/repo"
+          },
+          "objectMap": {
+            "xpath": "info:fedora/{mods:subject/mods:topic}",
+            "ruleType": "template",
+            "literal": false,
+            "nameSpace": "fedora",
+            "nameSpaceURI": "info:fedora/fedora-system:def/relations-external#"
+          }
+        }
+      ]
+    },
+    {
+      "name": "mods_names",
+      "contentModel": "islandora:sp_pdf",
+      "dataStream": "MODS",
+      "nameSpaces": [
+        {
+          "ns": "mods",
+          "uri": "http://www.loc.gov/mods/v3"
+        }
+      ],
+      "iterator": "/mods:mods/mods:name",
+      "predicateObjectMap": [
+        {
+          "description": "",
+          "predicateMap": {
+            "xpath": "hasName",
+            "ruleType": "constant",
+            "nameSpace": "tudrepo",
+            "nameSpaceURI": "http://www.library.tudelft.nl/ns/repo"
+          },
+          "objectMap": {
+            "xpath": "{mods:namePart[@type='given']} {mods:namePart[@type='family']}",
+            "ruleType": "template",
+            "literal": true,
+            "nameSpace": "",
+            "nameSpaceURI": ""
+          }
+        }
+      ]
+    }
+  ]
+}
