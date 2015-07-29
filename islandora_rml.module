@@ -75,7 +75,9 @@ function islandora_rml_block_view($delta= '') {
 		$rml = new RML($jsonString);
 		$fedoraObject = islandora_object_load(get_pid_from_url());
 		$block['content'] .= json_encode($rml->deriveTriples($fedoraObject),JSON_PRETTY_PRINT);
-//		$rml->addDerivedTriples($fedoraObject);
+		
+		//uncommenting the following line gives: RepositoryException: in RepositoryConnection->parseFedoraExceptions() (line 229 of /repo/sites/repository.tudelft.nl/www/sites/all/libraries/tuque/RepositoryConnection.php).
+		//$rml->addDerivedTriples($fedoraObject);
 		$block['content'] .= '</pre></div>';
 		break;
 	}

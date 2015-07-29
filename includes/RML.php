@@ -101,7 +101,7 @@ class RML {
 			}
 			$fedoraObject->relationships->registerNamespace($triple['predicate']['alias'], $triple['predicate']['namespace']);
 			
-//			$fedoraObject->relationships->add($triple['predicate']['namespace'], $triple['predicate']['value'], $triple['object']['value'], $type); 
+			$fedoraObject->relationships->add($triple['predicate']['namespace'], $triple['predicate']['value'], $triple['object']['value'], $type); 
 		}
 		
 	}
