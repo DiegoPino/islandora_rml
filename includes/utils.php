@@ -62,4 +62,34 @@ function recursiveEqual($a, $b) {
 	}
 	return $a === $b;
 }
+
+
+
+function jsonCheck() {
+	switch (json_last_error()) {
+		case JSON_ERROR_NONE:
+			$error = 'OK';
+		break;
+		case JSON_ERROR_DEPTH:
+			$error = 'Maximum stack depth exceeded';
+		break;
+		case JSON_ERROR_STATE_MISMATCH:
+			$error = 'State mismatch';
+		break;
+		case JSON_ERROR_CTRL_CHAR:
+			$error = 'Unexpected control character found';
+		break;
+		case JSON_ERROR_SYNTAX:
+			$error = 'Syntax error, malformed JSON';
+		break;
+		case JSON_ERROR_UTF8:
+			$error = 'Malformed UTF-8 characters, possibly incorrectly encoded';
+		break;
+		default:
+			$error = 'Unknown error';
+		break;
+	}
+	return $error;
+}
+
 ?>

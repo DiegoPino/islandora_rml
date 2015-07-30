@@ -1,5 +1,9 @@
 <?php
 
+//jsv4 does not work as expected
+//require_once 'jsv4.php';
+require_once 'utils.php';
+
 /**
 * Represents the RML specification.
 *
@@ -16,7 +20,8 @@
 class RML {
 	public $triplesMap = array();
 	public $triples = array();
-
+	public $messages = array();
+	
 	/**
 	 * Constructs a RML object 
 	 * from a json string or a json object
@@ -28,11 +33,58 @@ class RML {
 	 * @return void
 	 *  
 	 */
-	function __construct($json) {
+	function __construct($json,$schema = null) {
+		//check parameter $json
 		if (is_string($json) || is_object($json)) {
-			$jsonObject = is_string($json) ? json_decode($json) : $json;
-			foreach ($jsonObject->triplesMap as $tm) $this->triplesMap[] = new TriplesMap($tm);
+			//try to get an object out of $json
+
+			if (is_string($json)){
+				$jsonObject = json_decode($json);
+				$this->messages[] = 'RML construction message ($json): '.jsonCheck();
+			}
+			else $jsonObject = $json;
+
+			if ($jsonObject) {
+				//schema validation
+				$jsonSchema = null;
+				if ($schema === null) {
+					$schema = file_get_contents(dirname(__FILE__).'/RMLSchema.json');
+					if ($schema) {
+						$jsonSchema = json_decode($schema);
+						$this->messages[] = 'RML construction message ($schema): '.jsonCheck();
+					}
+					else $this->messages[] = 'RML construction warning: RMLSchema.json not found.';
+				}
+				else {
+					if (is_string($schema) || is_object($schema)) {
+						if (is_string($schema)) {
+							$jsonSchema = json_decode($schema);
+							$this->messages[] = 'RML construction message ($schema): '.jsonCheck();
+						}
+						else $jsonSchema = $schema;
+					}
+					else $this->messages[] = 'RML construction warning: second parameter $schema is not a string or object.';
+				}
+
+//				Jsv4 does not work as expected
+/*				if ($jsonSchema) {
+					$validation = Jsv4::validate($json, $jsonSchema);
+					if ($validation->valid != true) {
+						$this->messages[] = 'RML construction warning: $json does not comply with $schema: ';
+						foreach ($validation->errors as $err) {
+							foreach ($err as $k=>$v) $this->messages[] = '  '.$k.': '.$v;
+						}
+					}
+				}
+				else $this->messages[] = 'RML construction warning: $schema is no valid JSON.';
+*/				
+				
+				//try anyway to get the triplesMaps
+				foreach ($jsonObject->triplesMap as $tm) $this->triplesMap[] = new TriplesMap($tm);
+			}
+			else $this->messages[] = 'RML construction error: first parameter $json is no valid JSON.';
 		}
+		else $this->messages[] = 'RML construction error: first parameter $json is not a string or object.';
 	}
 	
 	/**
@@ -64,21 +116,6 @@ class RML {
 	 * @return void
 	 *
 	 */
-/*
-{
-        "predicate": {
-            "value": "constituent",
-            "alias": "tudrepo",
-            "namespace": "http:\/\/www.library.tudelft.nl\/ns\/repo"
-        },
-        "object": {
-            "value": "info:fedora\/uuid:eceb984c-1887-4c59-9a7e-cc9d2ebef686",
-            "alias": "fedora",
-            "namespace": "info:fedora\/fedora-system:def\/relations-external#"
-        }
-    },
-*/
-
 	//this is a still a first version!!!
 	function addDerivedTriples($fedoraObject) {
 		$newTriples = $this->deriveTriples($fedoraObject);

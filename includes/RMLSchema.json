@@ -1,6 +1,6 @@
 {
-	"$schema": "http://json-schema.org/draft-04/schema#",
-	"type": "object",
+	"$schema":"http://json-schema.org/draft-04/schema#",
+	"type":"object",
 	"title":"RML",
 	"properties": {
 		"triplesMap": {
@@ -8,9 +8,9 @@
 			"title":"Triples map(s)",
 			"format":"tabs",
 			"items": {
-				"type": "object",
-				"title": "triples map",
-				"headerTemplate": "{{ i1 }} - {{ self.name }}",
+				"type":"object",
+				"title":"triples map",
+				"headerTemplate":"{{ i1 }} - {{ self.name }}",
 				"required":["name","contentModel","dataStream","iterator"],
 				"properties": {
 					"name": {
@@ -64,11 +64,11 @@
 						"title":"Iterator"
 					},
 					"predicateObjectMap": {
-						"type": "array",
+						"type":"array",
 						"propertyOrder": 700,
 						"title":"Predicate Object map(s)",
 						"items": {
-							"type": "object",
+							"type":"object",
 							"title":"Map",
 							"properties": {
 								"description": {
@@ -87,7 +87,7 @@
 											"title":"xPath of predicate in document"
 										},
 										"ruleType": {
-											"type": "string",
+											"type":"string",
 											"propertyOrder": 740,
 											"title":"xPath type",
 											"enum": ["reference","constant","template"]
@@ -115,14 +115,14 @@
 											"title":"xPath of object in document"
 										},
 										"ruleType": {
-											"type": "string",
+											"type":"string",
 											"propertyOrder": 820,
 											"title":"xPath type",
 											"enum": ["reference","constant","template"]
 										},
 										"literal": {
 											"type":"boolean",
-											"format": "checkbox",
+											"format":"checkbox",
 											"propertyOrder": 830,
 											"title":"Literal object?"
 										},
